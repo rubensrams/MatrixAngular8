@@ -1,0 +1,81 @@
+<div class="main-wrapper">
+    <!-- ============================================================== -->
+    <!-- Preloader - style you can find in spinners.css -->
+    <!-- ============================================================== -->
+    <!-- ============================================================== -->
+    <!-- Preloader - style you can find in spinners.css -->
+    <!-- ============================================================== -->
+    <!-- ============================================================== -->
+    <!-- Login box.scss -->
+    <!-- ============================================================== -->
+    <div [ngClass]="{'disabled': loading}">
+        <div class="auth-wrapper d-flex no-block justify-content-center align-items-center bg-dark">
+            <div class="auth-box bg-dark border-top border-secondary">
+                <div id="loginform">
+                    <div class="text-center p-t-20 p-b-20">
+                        <span class="db"><img src="assets/img/logo.png" alt="logo" /></span>
+                    </div>
+                    <!-- Form --><br>
+
+                    <form (ngSubmit)="ingresar(f) " #f='ngForm' class=" form-horizontal m-t-20" id="loginform " autocomplete="off">
+                        <div class="row p-b-30 ">
+                            <div class="col-12 ">
+                                <div class="input-group mb-3 ">
+                                    <div class="input-group-prepend ">
+                                        <span class="input-group-text bg-success text-white "><i class="ti-user "></i></span>
+                                    </div>
+                                    <input [ngClass]="{ 'is-invalid': nombre.touched && nombre.errors?.required}" type="text " class="form-control form-control-lg " placeholder="Usuario" [(ngModel)]="usuario.username" required name="nombre" #nombre="ngModel">
+                                </div>
+                                <small *ngIf="nombre.errors?.required  && nombre.touched " class="form-text text-warning mb-3">Escribe el usuario</small>
+                                <div class="input-group mb-3 ">
+                                    <div class="input-group-prepend ">
+                                        <span class="input-group-text bg-warning text-white " id="basic-addon2 "><i class="ti-pencil "></i></span>
+                                    </div>
+                                    <input [ngClass]="{ 'is-invalid': password.touched && password.errors?.required}" type="password" class="form-control form-control-lg " placeholder="Password " [(ngModel)]="usuario.password" required name="password" #password="ngModel">
+                                </div>
+                                <small *ngIf="password.errors?.required && password.touched " class="form-text text-warning">Escribe el password</small>
+                            </div>
+                        </div><br>
+                        <div class="row border-top border-secondary"><br>
+                            <div class="col-12 ">
+                                <div class="form-group ">
+                                    <div class="p-t-20 ">
+                                        <button class="btn btn-success" type="submit">Ingresar <app-loading *ngIf="loading"></app-loading></button>
+                                        <button class="btn btn-info float-right btn-md" [routerLink]="['/register']" id="to-recover " type="button "><i class="fa fa-user m-r-1 "></i> Registrarme</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--<div class="row text-center ">
+                            <div class="col-12 ">
+                                <div class="form-group ">
+                                    <div class="p-t-20 ">
+                                        <button [routerLink]="['/login']" class="btn btn-danger " id="to-recover " type="button"><i class="fa fa-lock m-r-5 "></i> Olvidaste tu password?</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>-->
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+    <!-- ============================================================== -->
+    <!-- Login box.scss -->
+    <!-- ============================================================== -->
+    <!-- ============================================================== -->
+    <!-- Page wrapper scss in scafholding.scss -->
+    <!-- ============================================================== -->
+    <!-- ============================================================== -->
+    <!-- Page wrapper scss in scafholding.scss -->
+    <!-- ============================================================== -->
+    <!-- ============================================================== -->
+    <!-- Right Sidebar -->
+    <!-- ============================================================== -->
+    <!-- ============================================================== -->
+    <!-- Right Sidebar -->
+    <!-- ============================================================== -->
+</div>

@@ -1,0 +1,95 @@
+<div class="main-wrapper">
+    <!-- ============================================================== -->
+    <!-- Preloader - style you can find in spinners.css -->
+    <!-- ============================================================== -->
+
+    <!-- ============================================================== -->
+    <!-- Preloader - style you can find in spinners.css -->
+    <!-- ============================================================== -->
+    <!-- ============================================================== -->
+    <!-- Login box.scss -->
+    <!-- ============================================================== -->
+    <div [ngClass]="{'disabled': loading}">
+        <div class="auth-wrapper d-flex no-block justify-content-center align-items-center bg-dark">
+            <div class="auth-box bg-dark border-top border-secondary">
+                <div>
+                    <div class="text-center p-t-20 p-b-20">
+                        <span class="db"><img src="assets/img/logo.png" alt="logo" /></span>
+                    </div><br>
+                    <!-- Form -->
+                    <form autocomplete="off" class="form-horizontal m-t-20" [formGroup]="forma" (ngSubmit)="registrar()">
+                        <div class="row p-b-30">
+                            <div class="col-12">
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text bg-success text-white" id="basic-addon1"><i class="ti-user"></i></span>
+                                    </div>
+                                    <input [class.is-invalid]="nombreNoValido" formControlName="usuario" type="text" class="form-control form-control-lg" placeholder="Usuario">
+                                </div>
+                                <small *ngIf="nombreNoValido" class="form-text text-warning mb-3">Escribe el usuario</small>
+                                <!-- email -->
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text bg-danger text-white" id="basic-addon1"><i class="ti-email"></i></span>
+                                    </div>
+                                    <input [class.is-invalid]="correoNoValido" formControlName="correo" type="text" class="form-control form-control-lg" placeholder="Correo electrónico">
+                                </div>
+                                <small *ngIf="correoVacio" class="form-text text-warning mb-3">Escribe el correo</small>
+                                <small *ngIf="!correoVacio && correoNoValido" class="form-text text-warning mb-3">El correo es invalido</small>
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text bg-warning text-white" id="basic-addon2"><i class="ti-pencil"></i></span>
+                                    </div>
+                                    <input [class.is-invalid]="passwordNoValido" formControlName="password" type="password" class="form-control form-control-lg" placeholder="Password">
+                                </div>
+                                <small *ngIf="passwordNoValido" class="form-text text-warning mb-3">Escribe el password</small>
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text bg-info text-white" id="basic-addon2"><i class="ti-pencil"></i></span>
+                                    </div>
+                                    <input [class.is-invalid]="confPasswordValido" formControlName="confpassword" type="password" class="form-control form-control-lg" placeholder=" Confirma el password">
+                                </div>
+                                <small *ngIf="confPasswordValido" class="form-text text-warning mb-3">La confirmación de password no coincide</small>
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text bg-success text-white" id="basic-addon1"><i class="ti-user"></i></span>
+                                    </div>
+                                    <input [class.is-invalid]="completoNoValido" formControlName="completo" type="text" class="form-control form-control-lg" placeholder="Nombre completo">
+                                </div>
+                                <small *ngIf="completoNoValido" class="form-text text-warning mb-3">Escribe tu nombre completo</small>
+                            </div>
+                        </div>
+                        <div class="row border-top border-secondary"><br>
+                            <div class="col-12 ">
+                                <div class="form-group ">
+                                    <div class="p-t-20 ">
+                                        <button class="btn btn-info" type="submit"><app-loading *ngIf="loading"></app-loading> Registrarme</button>
+                                        <button class="btn btn-success float-right btn-md" [routerLink]="['/login']" type="button">Ingresar <app-loading *ngIf="loading"></app-loading></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- ============================================================== -->
+    <!-- Login box.scss -->
+    <!-- ============================================================== -->
+    <!-- ============================================================== -->
+    <!-- Page wrapper scss in scafholding.scss -->
+    <!-- ============================================================== -->
+    <!-- ============================================================== -->
+    <!-- Page wrapper scss in scafholding.scss -->
+    <!-- ============================================================== -->
+    <!-- ============================================================== -->
+    <!-- Right Sidebar -->
+    <!-- ============================================================== -->
+    <!-- ============================================================== -->
+    <!-- Right Sidebar -->
+    <!-- ============================================================== -->
+</div>
+<!-- ============================================================== -->
+<!-- All Required js -->
+<!-- ============================================================== -->
