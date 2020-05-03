@@ -1,3 +1,4 @@
+import { Roles } from './rol';
 export class Usuarios {
 
     id: number;
@@ -5,6 +6,6 @@ export class Usuarios {
     password: string;
     nombre: string;
     email: string;
-    roles: string[] = [];
+    roles: Roles[] = [];
 
 }

@@ -36,7 +36,6 @@ export class LoginComponent implements OnInit {
       }
     this.loading = true;
     this.usuarioService.login(this.usuario).subscribe( resp => {
-      console.log(resp);
       let payload= JSON.parse(atob(resp.access_token.split('.')[1]));
       this.router.navigate(['/dashboard']);
       Toast.fire({
@@ -44,10 +43,10 @@ export class LoginComponent implements OnInit {
         title: `Usuario: ${payload.username} logueado exitosamente`
       });
     }, error => {
-
+      console.log(error);
       let mensaje;
       if(error.status === 400) {
-        mensaje = 'Usuario o password incorrecto';
+        mensaje = error.error.error_description;
       } else {
         mensaje = 'Servicio no disponible. Intenta mas tarde';
       }

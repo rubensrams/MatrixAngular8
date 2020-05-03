@@ -1,6 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ValidatorsService } from '../../services/validators.service';
+import { Usuarios } from 'src/app/models/usuarios';
+import { UsuarioService } from '../../services/usuario.service';
+import { Toast } from 'src/app/config/config';
+import { Router } from '@angular/router';
 declare function _initPlugins();
 @Component({
   selector: 'app-registro',
@@ -11,8 +15,10 @@ export class RegistroComponent implements OnInit {
 
   forma: FormGroup;
   loading = false;
-  constructor(private fb: FormBuilder, private validators: ValidatorsService) { 
-    
+  usuario: Usuarios;
+  constructor(private router: Router, private fb: FormBuilder, private validators: ValidatorsService,
+              private usuarioService: UsuarioService) {
+    this.usuario = new Usuarios();
     this.crearFormulario();
 
   }
@@ -22,7 +28,7 @@ export class RegistroComponent implements OnInit {
   }
 
 
-  crearFormulario(){
+  crearFormulario() {
 
     this.forma = this.fb.group({
       usuario: ['', Validators.required],
@@ -48,11 +54,30 @@ export class RegistroComponent implements OnInit {
 
       return;
     }
-
+    console.log(this.usuario);
     this.loading = true;
-    setTimeout( () => this.loading = false, 4000);
-    
-
+    this.usuarioService.registro(this.usuario).subscribe( resp => {
+      console.log(resp);
+      Toast.fire({
+        icon: 'success',
+        title: `Usuario creado exitosamente`
+      });
+      this.loading = false;
+      this.router.navigate(['/login']);
+    }, error => {
+      console.log(error);
+      let mensaje: string;
+      if (error.status === 400) {
+        if(error.error.error === '02'){
+          mensaje = error.error.message;
+        }
+       }
+      Toast.fire({
+        icon: 'error',
+        title: mensaje
+      });
+      this.loading = false;
+    });
   }
 
   get nombreNoValido() {
@@ -77,10 +102,8 @@ export class RegistroComponent implements OnInit {
     return this.forma.get('password').invalid && this.forma.get('password').touched;
   }
   get confPasswordValido() {
-
     const p1 = this.forma.get('password').value;
-    const p2 = this.forma.get('confpassword').value;
-
+    const p2 = (this.forma.get('confpassword').value === '') ? undefined : this.forma.get('confpassword').value;
     return (p1 === p2 ) ? false : true;
   }
 
