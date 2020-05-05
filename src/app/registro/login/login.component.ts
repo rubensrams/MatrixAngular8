@@ -3,8 +3,8 @@ import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Usuarios } from '../../models/usuarios';
 import { UsuarioService } from '../../services/usuario.service';
-import Swal from 'sweetalert2'
 import { Toast } from 'src/app/config/config';
+import { OauthService } from '../../services/oauth.service';
 declare function _initPlugins();
 @Component({
   selector: 'app-login',
@@ -17,13 +17,12 @@ export class LoginComponent implements OnInit {
   loading = false;
   Toast: any;
   
-  constructor(private router: Router, private usuarioService: UsuarioService) {
+  constructor(private router: Router, private oauthService: OauthService) {
       this.usuario = new Usuarios();
    }
 
   ngOnInit() {
     _initPlugins();
-    console.log('entro');
 
   }
 
@@ -35,25 +34,15 @@ export class LoginComponent implements OnInit {
         return;
       }
     this.loading = true;
-    this.usuarioService.login(this.usuario).subscribe( resp => {
-      let payload= JSON.parse(atob(resp.access_token.split('.')[1]));
-      this.router.navigate(['/dashboard']);
+    this.oauthService.login(this.usuario).subscribe( resp => {
+      this.oauthService.guardaDataSession(resp.access_token);
+      const usuario = this.oauthService.usuario;
       Toast.fire({
         icon: 'success',
-        title: `Usuario: ${payload.username} logueado exitosamente`
+        title: `Usuario: ${usuario.username} logueado exitosamente`
       });
+      this.router.navigate(['/dashboard']);
     }, error => {
-      console.log(error);
-      let mensaje;
-      if(error.status === 400) {
-        mensaje = error.error.error_description;
-      } else {
-        mensaje = 'Servicio no disponible. Intenta mas tarde';
-      }
-      Toast.fire({
-        icon: 'error',
-        title: mensaje
-      });
       this.loading = false;
     });
 

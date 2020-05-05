@@ -24,14 +24,14 @@
                                     <div class="input-group-prepend ">
                                         <span class="input-group-text bg-success text-white "><i class="ti-user "></i></span>
                                     </div>
-                                    <input [ngClass]="{ 'is-invalid': nombre.touched && nombre.errors?.required}" type="text " class="form-control form-control-lg " placeholder="Usuario" [(ngModel)]="usuario.username" required name="nombre" #nombre="ngModel">
+                                    <input [ngClass]="{ 'is-invalid': nombre.touched && nombre.errors?.required}" type="text " class="form-control form-control-lg " placeholder="Usuario" [(ngModel)]="usuario.username" required name="nombre" #nombre="ngModel" />
                                 </div>
                                 <small *ngIf="nombre.errors?.required  && nombre.touched " class="form-text text-warning mb-3">Escribe el usuario</small>
                                 <div class="input-group mb-3 ">
                                     <div class="input-group-prepend ">
                                         <span class="input-group-text bg-warning text-white " id="basic-addon2 "><i class="ti-pencil "></i></span>
                                     </div>
-                                    <input [ngClass]="{ 'is-invalid': password.touched && password.errors?.required}" type="password" class="form-control form-control-lg " placeholder="Password " [(ngModel)]="usuario.password" required name="password" #password="ngModel">
+                                    <input [ngClass]="{ 'is-invalid': password.touched && password.errors?.required}" type="password" class="form-control form-control-lg " placeholder="Password " [(ngModel)]="usuario.password" required name="password" #password="ngModel" />
                                 </div>
                                 <small *ngIf="password.errors?.required && password.touched " class="form-text text-warning">Escribe el password</small>
                             </div>
