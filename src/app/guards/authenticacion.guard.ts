@@ -24,6 +24,7 @@ export class AuthenticacionGuard implements CanActivate {
          return true;
       } else {
         console.log('AuthenticacionGuard--->Sesion expirada');
+        this.oaut.logout();
         this.router.navigate(['/login']);
         return false;
       }
@@ -35,6 +36,8 @@ export class AuthenticacionGuard implements CanActivate {
     let token = this.oaut.token;
     let payload = this.oaut.obtenerDatosToken(token);
     let now = new Date().getTime() / 1000;
+    console.log(payload.exp);
+    console.log(now);
     if(payload.exp < now){
       return true;
     }

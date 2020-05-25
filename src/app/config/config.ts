@@ -1,6 +1,7 @@
 // tslint:disable-next-line: eofline
 import Swal from 'sweetalert2'
 export const URL_MICROSERVICIOS = 'http://192.168.99.100:8090';
+export const URL_MICROSERVICIOS_NODE = 'http://localhost:3000';
 
 export const CRED_CLIENTE_MICROSERVICIOS = 'matrix-app-angular' + ':' + '12345';
 

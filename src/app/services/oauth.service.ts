@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Usuarios } from '../models/usuarios';
-import { URL_MICROSERVICIOS, CRED_CLIENTE_MICROSERVICIOS, Toast } from '../config/config';
+import { URL_MICROSERVICIOS, CRED_CLIENTE_MICROSERVICIOS, Toast, URL_MICROSERVICIOS_NODE } from '../config/config';
 import { Observable, throwError } from 'rxjs';
 import { Router } from '@angular/router';
 import { map, catchError  } from 'rxjs/operators';
@@ -13,6 +13,7 @@ export class OauthService {
 
   private _usuario: Usuarios;
   private _token: string;
+  private _ls: string;
 
   constructor(private http: HttpClient, private router: Router) {
 
@@ -30,6 +31,7 @@ export class OauthService {
     .set('grant_type', 'password');
     return this.http.post<any>(enpoint, params.toString(), {headers}).pipe(
     catchError(err => {
+      console.log(err);
       let mensaje;
       if(err.status === 400) {
         mensaje = err.error.error_description;
@@ -45,9 +47,15 @@ export class OauthService {
    );
 }
 
-guardaDataSession(accessToken: string): void {
 
-  let payload= this.obtenerDatosToken(accessToken);
+guardaDataSession(accessToken: string, lsocial: string): void {
+  let payload;
+    if(lsocial === '1'){
+      payload= this.obtenerDatosToken(accessToken).usuario;
+    }else{
+      payload=  this.obtenerDatosToken(accessToken);
+    }
+
   this._usuario = new Usuarios();
   this._usuario.nombre = payload.nombre;
   this._usuario.email = payload.correo;
@@ -56,18 +64,26 @@ guardaDataSession(accessToken: string): void {
   this._usuario.roles = payload.authorities;
   sessionStorage.setItem('usuario', JSON.stringify(this._usuario));
   sessionStorage.setItem('token', accessToken);
+  sessionStorage.setItem('ls', lsocial);
 }
 
 obtenerDatosToken(accessToken: string): any {
   if (accessToken !== null) {
-      return JSON.parse(atob(accessToken.split('.')[1]));
+       try{
+        return  JSON.parse(atob(accessToken.split('.')[1]));
+       }catch(ex){
+        console.log(ex);
+        return null;
+       }
+      
   }
-  return null;
+
 }
 
 logout(): void {
   this._usuario = null;
   this._token = null;
+  this._ls = null;
   sessionStorage.clear();
 }
 
@@ -95,6 +111,17 @@ public get token(): string {
   return null;
   }
 
+  public get ls(): string {
+  
+    if(this._ls != null) {
+        return this._ls;
+    } else if (this._ls == null && sessionStorage.getItem('ls') != null) {
+      this._ls = sessionStorage.getItem('ls');
+      return this.ls;
+    }
+    return null;
+    }
+
   hasRole(role: string): boolean {
     if (this._usuario.roles.includes(role)) {
       return true;
@@ -103,7 +130,14 @@ public get token(): string {
   }
 
   isAuthenticated(): boolean {
-    let payload= this.obtenerDatosToken(this.token);
+    let ls= sessionStorage.getItem('ls');
+    let payload;
+    if(ls === '1' ){
+      payload= this.obtenerDatosToken(this.token).usuario;
+    }else{
+      payload= this.obtenerDatosToken(this.token);
+
+    }
     if (payload != null && payload.user_name ) {
         return true;
     }

@@ -1,0 +1,83 @@
+<div class="row">
+    <div class="card col-7">
+        <div class="card-body">
+            <div class="form-group row">
+                <label class="col-md-3" for="disabledTextInput">Usuario</label>
+                <div class="col-md-9">
+                    <input type="text" id="disabledTextInput" class="form-control" placeholder="Usuario" disabled="true">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-md-3" for="disabledTextInput">Email</label>
+                <div class="col-md-9">
+                    <input type="text" id="disabledTextInput" class="form-control" placeholder="Email" disabled="true">
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-md-3" for="disabledTextInput">Tipo de cuenta</label>
+                <div class="col-md-9">
+                    <input type="text" id="disabledTextInput" class="form-control" placeholder="Tipo de cuenta" disabled="true">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-md-3" for="disabledTextInput">Estatus</label>
+                <div class="col-md-9">
+                    <input type="text" id="disabledTextInput" class="form-control" placeholder="Estatus" disabled="true">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-md-3" for="disabledTextInput">Nombre</label>
+                <div class="col-md-9">
+                    <input type="text" id="disabledTextInput" class="form-control" placeholder="Nombre">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-md-3">Roles</label>
+                <div class="col-md-9">
+                    <div class="custom-control custom-checkbox mr-sm-2">
+                        <input type="checkbox" class="custom-control-input" id="customControlAutosizing1">
+                        <label class="custom-control-label" for="customControlAutosizing1">First One</label>
+                    </div>
+                    <div class="custom-control custom-checkbox mr-sm-2">
+                        <input type="checkbox" class="custom-control-input" id="customControlAutosizing2">
+                        <label class="custom-control-label" for="customControlAutosizing2">Second One</label>
+                    </div>
+                    <div class="custom-control custom-checkbox mr-sm-2">
+                        <input type="checkbox" class="custom-control-input" id="customControlAutosizing3">
+                        <label class="custom-control-label" for="customControlAutosizing3">Third One</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="border-top">
+            <div class="card-body">
+                <button type="button" class="btn btn-primary">Guardar</button>
+                <button type="button" class="btn btn-success ml-5" [routerLink]="['/usuarios', pagina]">Regresar</button>
+            </div>
+        </div>
+    </div>
+    <div class="col-5">
+        <img src="../../../assets/img/background/img4.jpg" class="img-fluid">
+        <div class="card col-12">
+            <div class="card-body">
+                <div class="form-group row">
+                    <label class="col-md-4">Foto de perfil</label>
+                    <div class="col-md-12">
+                        <div class="custom-file">
+                            <input type="file" class="custom-file-input" id="validatedCustomFile" required>
+                            <label class="custom-file-label" for="validatedCustomFile">Selecciona</label>
+                            <div class="invalid-feedback">Example invalid custom file feedback</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="border-top">
+                <div class="card-body">
+                    <button type="button" class="btn btn-primary">Actualizar</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

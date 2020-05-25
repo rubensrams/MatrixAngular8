@@ -16,12 +16,31 @@ import { APP_ROUTES } from './app.rutas';
 import { TokenInterceptor } from './interceptors/token-interceptor';
 import { ResponseHttpInterceptor } from './interceptors/responseHttpInterceptor';
 
+import { SocialLoginModule, AuthServiceConfig } from "angularx-social-login";
+import { GoogleLoginProvider, FacebookLoginProvider} from "angularx-social-login";
+
+let config = new AuthServiceConfig([
+  {
+    id: GoogleLoginProvider.PROVIDER_ID,
+    provider: new GoogleLoginProvider("843181634802-m96p3kerg88c0mrt9tg988glgqd5aavr.apps.googleusercontent.com")
+  },
+  {
+    id: FacebookLoginProvider.PROVIDER_ID,
+    provider: new FacebookLoginProvider("667743800543980")
+                                         
+  }
+]);
+ 
+export function provideConfig() {
+  return config;
+}
+
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
     RegistroComponent,
-    NopagefoundComponent,
+    NopagefoundComponent
   ],
   imports: [
     BrowserModule,
@@ -31,10 +50,14 @@ import { ResponseHttpInterceptor } from './interceptors/responseHttpInterceptor'
     FormsModule,
     ReactiveFormsModule,
     NoopAnimationsModule,
-    HttpClientModule
+    HttpClientModule,
+    SocialLoginModule
   ],
   providers: [{provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true},
-              { provide: HTTP_INTERCEPTORS, useClass: ResponseHttpInterceptor, multi: true }],
+              { provide: HTTP_INTERCEPTORS, useClass: ResponseHttpInterceptor, multi: true }, {
+                provide: AuthServiceConfig,
+                useFactory: provideConfig
+              }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

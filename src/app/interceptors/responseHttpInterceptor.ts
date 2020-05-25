@@ -19,7 +19,8 @@ export class ResponseHttpInterceptor implements HttpInterceptor {
       console.log('ResponseHttpInterceptor--> respuesta');
       return next.handle(req).pipe(
           catchError(err => {
-            if (err.status === 401 || err.status === 403 ) {
+            if (/*err.status === 401 || */err.status === 403 ) {
+              this.oaut.logout();
               this.router.navigate(['/login']);
             }
             return throwError(err);

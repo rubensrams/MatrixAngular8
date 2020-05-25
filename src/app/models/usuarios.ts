@@ -6,6 +6,8 @@ export class Usuarios {
     password: string;
     nombre: string;
     email: string;
+    foto: string;
+    social: string;
     roles: string[] = [];
 
 }

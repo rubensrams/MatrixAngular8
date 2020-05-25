@@ -4,3 +4,7 @@
     pointer-events: none;
     opacity: 0.8;
 }
+
+.widthsocialbtn {
+    width: 200px;
+}
