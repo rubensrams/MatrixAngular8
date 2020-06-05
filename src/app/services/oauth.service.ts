@@ -5,6 +5,7 @@ import { URL_MICROSERVICIOS, CRED_CLIENTE_MICROSERVICIOS, Toast, URL_MICROSERVIC
 import { Observable, throwError } from 'rxjs';
 import { Router } from '@angular/router';
 import { map, catchError  } from 'rxjs/operators';
+import { Roles } from '../models/rol';
 
 @Injectable({
   providedIn: 'root'
@@ -12,6 +13,7 @@ import { map, catchError  } from 'rxjs/operators';
 export class OauthService {
 
   private _usuario: Usuarios;
+  private roles: Roles;
   private _token: string;
   private _ls: string;
 

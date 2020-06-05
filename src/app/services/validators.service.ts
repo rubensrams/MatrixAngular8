@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { FormGroup, ValidatorFn, FormArray } from '@angular/forms';
 
 @Injectable({
   providedIn: 'root'
@@ -21,6 +21,20 @@ export class ValidatorsService {
         pass2ctrl.setErrors({notSame: true});
       }
     }
+  }
+
+  multipleCheckboxRequireOne(fa: FormArray) {
+    let valid = false;
+    for (let x = 0; x < fa.length; ++x) {
+      if (fa.at(x).value) {
+
+        valid = true;
+        break;
+      }
+    }
+    return valid ? null : {
+      multipleCheckboxRequireOne: true
+    };
   }
 
 }

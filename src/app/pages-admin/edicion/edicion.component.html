@@ -1,62 +1,89 @@
-<div class="row">
-    <div class="card col-7">
+<div *ngIf="loading" class="fa-3x">
+    <i class="fas fa-sync fa-spin"></i>
+</div>
+<div *ngIf="error">
+    <div class="alert alert-danger text-center" role="alert">
+        Servicio no disponible. Intenta mas tarde
+    </div>
+    <div class="border-top text-center">
         <div class="card-body">
-            <div class="form-group row">
-                <label class="col-md-3" for="disabledTextInput">Usuario</label>
-                <div class="col-md-9">
-                    <input type="text" id="disabledTextInput" class="form-control" placeholder="Usuario" disabled="true">
-                </div>
-            </div>
-            <div class="form-group row">
-                <label class="col-md-3" for="disabledTextInput">Email</label>
-                <div class="col-md-9">
-                    <input type="text" id="disabledTextInput" class="form-control" placeholder="Email" disabled="true">
-                </div>
-            </div>
-
-            <div class="form-group row">
-                <label class="col-md-3" for="disabledTextInput">Tipo de cuenta</label>
-                <div class="col-md-9">
-                    <input type="text" id="disabledTextInput" class="form-control" placeholder="Tipo de cuenta" disabled="true">
-                </div>
-            </div>
-            <div class="form-group row">
-                <label class="col-md-3" for="disabledTextInput">Estatus</label>
-                <div class="col-md-9">
-                    <input type="text" id="disabledTextInput" class="form-control" placeholder="Estatus" disabled="true">
-                </div>
-            </div>
-            <div class="form-group row">
-                <label class="col-md-3" for="disabledTextInput">Nombre</label>
-                <div class="col-md-9">
-                    <input type="text" id="disabledTextInput" class="form-control" placeholder="Nombre">
-                </div>
-            </div>
-            <div class="form-group row">
-                <label class="col-md-3">Roles</label>
-                <div class="col-md-9">
-                    <div class="custom-control custom-checkbox mr-sm-2">
-                        <input type="checkbox" class="custom-control-input" id="customControlAutosizing1">
-                        <label class="custom-control-label" for="customControlAutosizing1">First One</label>
-                    </div>
-                    <div class="custom-control custom-checkbox mr-sm-2">
-                        <input type="checkbox" class="custom-control-input" id="customControlAutosizing2">
-                        <label class="custom-control-label" for="customControlAutosizing2">Second One</label>
-                    </div>
-                    <div class="custom-control custom-checkbox mr-sm-2">
-                        <input type="checkbox" class="custom-control-input" id="customControlAutosizing3">
-                        <label class="custom-control-label" for="customControlAutosizing3">Third One</label>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="border-top">
-            <div class="card-body">
-                <button type="button" class="btn btn-primary">Guardar</button>
-                <button type="button" class="btn btn-success ml-5" [routerLink]="['/usuarios', pagina]">Regresar</button>
-            </div>
+            <button type="button" class="btn btn-info" [routerLink]="['/usuarios', pagina]">Regresar</button>
         </div>
     </div>
+</div>
+<div class="row" *ngIf="!loading && usuario" class="row">
+    <div class="card col-7" [ngClass]="{'disabled': loadingActualizar || loadingActPassw}">
+        <form [formGroup]="forma" (ngSubmit)="guardar()">
+            <div class="form-group row mt-4">
+                <label class="col-md-3">Resetear password</label>
+                <div class="col-md-9">
+                    <div>
+                        <button type="button" (click)="resetearPassword()" class="btn btn-success">Resetear password <app-loading *ngIf="loadingActPassw"></app-loading></button>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="form-group row">
+                    <label class="col-md-3" for="disabledTextInput">Usuario</label>
+                    <div class="col-md-9">
+                        <input formControlName="usuario" name="usuario" type="text" class="form-control" placeholder="Usuario">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-md-3" for="disabledTextInput">Tipo de cuenta</label>
+                    <div class="col-md-9">
+                        <input formControlName="tipocuenta" type="text" class="form-control" placeholder="Tipo de cuenta">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-md-3" for="disabledTextInput">Email</label>
+                    <div class="col-md-9">
+                        <input formControlName="email" type="text" [class.is-invalid]="correoVacio || correoNoValido" class="form-control" placeholder="Email">
+                        <small *ngIf="correoVacio" class="form-text text-danger mb-3"><b>Escribe el correo</b></small>
+                        <small *ngIf="!correoVacio && correoNoValido" class="form-text text-danger mb-3"><b> El correo es invalido</b></small>
+
+                    </div>
+
+                </div>
+                <div class="form-group row">
+                    <label class="col-md-3 m-t-15">Estatus</label>
+                    <div class="col-md-9">
+                        <select formControlName="activo" class="select2 form-control custom-select" style="width: 100%; height:36px;">
+                                <option value="1">Activo</option>
+                                <option value="0">Bloqueado</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-md-3" for="disabledTextInput">Nombre</label>
+                    <div class="col-md-9">
+                        <input formControlName="nombre" type="text" [class.is-invalid]="nombreNoValido" class="form-control" placeholder="Nombre">
+                        <small *ngIf="nombreNoValido" class="form-text text-danger mb-3"><b>Escribe el nombre</b></small>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-md-3">Roles</label>
+                    <div class="col-md-9">
+                        <div formArrayName="roles">
+                            <div *ngFor="let rol of roles.controls; let i= index">
+                                <input type="checkbox" [formControlName]="i" />
+                                <label for="customControlAutosizing1" class="ml-1">{{usuario.roles[i].nombre}}</label>
+                            </div>
+                            <small *ngIf="rolesValidos" class="form-text text-danger mb-3"><b>Selecciona al menos un rol</b></small>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="border-top">
+                <div class="card-body">
+                    <button type="submit" [disabled]="!forma.valid" class="btn btn-success">Guardar <app-loading *ngIf="loadingActualizar"></app-loading></button>
+                    <button type="button" class="btn btn-info ml-5" [routerLink]="['/usuarios', pagina]">Regresar</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
     <div class="col-5">
         <img src="../../../assets/img/background/img4.jpg" class="img-fluid">
         <div class="card col-12">
@@ -74,7 +101,7 @@
             </div>
             <div class="border-top">
                 <div class="card-body">
-                    <button type="button" class="btn btn-primary">Actualizar</button>
+                    <button type="button" class="btn btn-success">Actualizar</button>
                 </div>
             </div>
 

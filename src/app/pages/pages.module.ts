@@ -7,7 +7,7 @@ import { PagesComponent } from './pages/pages.component';
 import { UsuariosComponent } from '../pages-admin/usuarios/usuarios.component';
 import { PaginadorComponent } from '../pages-admin/paginador/paginador.component';
 import { EdicionComponent } from '../pages-admin/edicion/edicion.component';
-
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -22,7 +22,9 @@ import { EdicionComponent } from '../pages-admin/edicion/edicion.component';
   imports: [
     CommonModule,
     LayoutModule,
-    PAGES_ROUTES
+    PAGES_ROUTES,
+    FormsModule,
+    ReactiveFormsModule
   ]
 })
 export class PagesModule { }

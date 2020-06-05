@@ -7,7 +7,8 @@ export class Usuarios {
     nombre: string;
     email: string;
     foto: string;
+    activo: number;
     social: string;
-    roles: string[] = [];
+    roles: any[] = [];
 
 }
