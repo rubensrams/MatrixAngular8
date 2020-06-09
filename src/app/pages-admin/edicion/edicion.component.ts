@@ -20,12 +20,16 @@ export class EdicionComponent implements OnInit {
   loading = false;
   loadingActualizar = false;
   loadingActPassw = false;
+  loadingActFoto = false;
   error = false;
   usuario: Usuarios;
+  imagenSubir: File;
+  imagenTemp: string | ArrayBuffer;
+  fileName: string;
   constructor(
     private activatedRoute: ActivatedRoute, 
     private fb: FormBuilder,
-    private usuarioService: UsuarioService,
+    public usuarioService: UsuarioService,
     private router: Router,
     private validators: ValidatorsService) { 
     this.crearFormulario();
@@ -77,6 +81,7 @@ export class EdicionComponent implements OnInit {
         icon: 'success',
         title: `Datos actualizados exitosamente`
       });
+      this.usuarioService.actualizaDataUsuarioSession(this.usuarioEditar().id, this.usuarioEditar().nombre, this.usuarioEditar().email, null);
     }, error => {
       this.loadingActualizar = false;
       Toast.fire({
@@ -157,14 +162,14 @@ deshabilitaEmailCuentaSocial() {
   }
 
   get correoNoValido() {
-    if (this.forma.get('email').status === 'VALID') {
+    if (this.forma.get('email').status === 'VALID' || this.usuario.social==='FACEBOOK' || this.usuario.social==='GOOGLE') {
       return false;
     } else {
       return this.forma.get('email').errors.pattern  && this.forma.get('email').touched;
     }
   }
   get correoVacio() {
-    if (this.forma.get('email').status === 'VALID') {
+    if (this.forma.get('email').status === 'VALID' || this.usuario.social==='FACEBOOK' || this.usuario.social==='GOOGLE') {
       return false;
     } else {
       return this.forma.get('email').errors.required && this.forma.get('email').touched;
@@ -174,4 +179,63 @@ deshabilitaEmailCuentaSocial() {
   get rolesValidos() {
     return this.forma.get('roles').invalid && this.forma.get('roles').touched;
   }
+
+
+  preview(archivo:File){
+
+    if(!archivo){
+      this.imagenSubir = null;  
+      return;
+    }
+
+    if (!this.validateFile(archivo.name)) {
+      Toast.fire({
+        icon: 'error',
+        title: `Seleccione archivos de tipo imagen`
+      });
+      this.imagenSubir = null;
+      return;
+    }
+    this.fileName= archivo.name;
+      // vista previa puro JS
+    const reader = new FileReader();
+    const urlImagenTemp = reader.readAsDataURL(archivo);
+    reader.onloadend = () => {
+          this.imagenTemp = reader.result;
+      };
+  
+      this.imagenSubir = archivo;
+    }
+
+
+    validateFile(name: String) {
+      var ext = name.substring(name.lastIndexOf('.') + 1);
+      console.log(ext);
+      if (ext.toLowerCase() == 'png' || ext.toLowerCase() == 'jpg' || ext.toLowerCase() == 'gif') {
+          return true;
+      }
+      else {
+          return false;
+      }
+  }
+
+  cambiarImagen() {
+    this.loadingActFoto=true;
+    this.usuarioService.fileUpload( this.imagenSubir, this.usuario.id).subscribe( (resp: any) => {
+     console.log(resp);
+     this.loadingActFoto=false;
+      Toast.fire({
+        icon: 'success',
+        title: `Imagen de perfil actualizada exitosamente`
+      });
+      this.usuarioService.actualizaDataUsuarioSession(this.usuario.id, null, null, resp.usuarios.foto);
+    }, error => {
+      console.log(error);
+      this.loadingActFoto = false;
+      Toast.fire({
+        icon: 'error',
+        title: `Error al actualizar la foro de perfil`
+      });
+    });
+   }
 }

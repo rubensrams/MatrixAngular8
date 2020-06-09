@@ -25,7 +25,7 @@
                                 <td>{{ u.email }}</td>
                                 <td>{{ u.social }}</td>
                                 <td align="center"><button class="btn btn-info" (click)="verUsuario(u.id)">Editar</button></td>
-                                <td align="center"><button class="btn btn-danger">Eliminar</button></td>
+                                <td align="center"><button [disabled]="u.id === usuarioService.usuarioSession.id" (click)="borrarusuario(u)" class="btn btn-danger">Eliminar</button></td>
                             </tr>
                         </tbody>
                     </table>

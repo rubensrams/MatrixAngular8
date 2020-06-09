@@ -6,6 +6,7 @@ import { SidebarComponent } from './sidebar/sidebar.component';
 import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { LoadingComponent } from './loading/loading.component';
+import { PipesModule } from '../pipes/pipes.module';
 
 
 @NgModule({
@@ -24,6 +25,7 @@ import { LoadingComponent } from './loading/loading.component';
   ], imports: [
     RouterModule,
     CommonModule,
+    PipesModule
 ],
 
 })

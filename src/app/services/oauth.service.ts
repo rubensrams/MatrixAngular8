@@ -60,6 +60,7 @@ guardaDataSession(accessToken: string, lsocial: string): void {
 
   this._usuario = new Usuarios();
   this._usuario.nombre = payload.nombre;
+  this._usuario.foto = payload.foto;
   this._usuario.email = payload.correo;
   this._usuario.username = payload.user_name;
   this._usuario.id = payload.id;
@@ -67,6 +68,15 @@ guardaDataSession(accessToken: string, lsocial: string): void {
   sessionStorage.setItem('usuario', JSON.stringify(this._usuario));
   sessionStorage.setItem('token', accessToken);
   sessionStorage.setItem('ls', lsocial);
+}
+
+
+updateDataSession(nombre?: string, email?: string, foto?:string): void {
+  let usuarioMod= this._usuario = JSON.parse(sessionStorage.getItem('usuario')) as Usuarios
+  usuarioMod.nombre = (nombre===null)? usuarioMod.nombre: nombre;
+  usuarioMod.email = (email===null)? usuarioMod.email: email;
+  usuarioMod.foto = (foto===null)? usuarioMod.foto: foto;
+  sessionStorage.setItem('usuario', JSON.stringify(usuarioMod));
 }
 
 obtenerDatosToken(accessToken: string): any {

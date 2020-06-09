@@ -61,7 +61,12 @@
                         <small *ngIf="nombreNoValido" class="form-text text-danger mb-3"><b>Escribe el nombre</b></small>
                     </div>
                 </div>
-                <div class="form-group row">
+                <div *ngIf="usuario.id === usuarioService.usuarioSession.id">
+                    <div class="alert alert-warning text-center" role="alert">
+                        Para edición de roles se requiere que un administrador diferente ejecute la acción.
+                    </div>
+                </div>
+                <div *ngIf="usuario.id !== usuarioService.usuarioSession.id" class="form-group row" visible="false">
                     <label class="col-md-3">Roles</label>
                     <div class="col-md-9">
                         <div formArrayName="roles">
@@ -84,24 +89,27 @@
         </form>
     </div>
 
-    <div class="col-5">
-        <img src="../../../assets/img/background/img4.jpg" class="img-fluid">
+    <div class="col-5" [ngClass]="{'disabled': loadingActFoto}">
         <div class="card col-12">
             <div class="card-body">
                 <div class="form-group row">
                     <label class="col-md-4">Foto de perfil</label>
+                    <img *ngIf="!imagenTemp" [src]="usuario.foto | imagen" class="img-fluid mb-3" />
+                    <img *ngIf="imagenTemp" [src]="imagenTemp" class="img-fluid mb-3" />
                     <div class="col-md-12">
                         <div class="custom-file">
-                            <input type="file" class="custom-file-input" id="validatedCustomFile" required>
+                            <input (change)="preview( $event.target.files[0])" type="file" class="custom-file-input" id="validatedCustomFile">
                             <label class="custom-file-label" for="validatedCustomFile">Selecciona</label>
-                            <div class="invalid-feedback">Example invalid custom file feedback</div>
+                            <div *ngIf="fileName" class="alert alert-info text-center" role="alert">
+                                {{fileName}}
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="border-top">
                 <div class="card-body">
-                    <button type="button" class="btn btn-success">Actualizar</button>
+                    <button [disabled]="!imagenSubir" (click)="cambiarImagen()" type="button" class="btn btn-success">Actualizar <app-loading *ngIf="loadingActFoto"></app-loading></button>
                 </div>
             </div>
 

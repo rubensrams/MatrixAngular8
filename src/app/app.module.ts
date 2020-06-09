@@ -19,6 +19,7 @@ import { ResponseHttpInterceptor } from './interceptors/responseHttpInterceptor'
 import { SocialLoginModule, AuthServiceConfig } from "angularx-social-login";
 import { GoogleLoginProvider, FacebookLoginProvider} from "angularx-social-login";
 
+
 let config = new AuthServiceConfig([
   {
     id: GoogleLoginProvider.PROVIDER_ID,
@@ -40,7 +41,7 @@ export function provideConfig() {
     AppComponent,
     LoginComponent,
     RegistroComponent,
-    NopagefoundComponent
+    NopagefoundComponent,
   ],
   imports: [
     BrowserModule,
