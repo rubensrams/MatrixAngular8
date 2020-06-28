@@ -1,0 +1,130 @@
+<div *ngIf="loading" class="fa-3x">
+    <i class="fas fa-sync fa-spin"></i>
+</div>
+<div *ngIf="error">
+    <div class="alert alert-danger text-center" role="alert">
+        Servicio no disponible. Intenta mas tarde
+    </div>
+    <div class="border-top text-center">
+        <div class="card-body">
+            <button type="button" class="btn btn-info">Regresar</button>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="card col col-lg-offset-4">
+        <form [formGroup]="forma" (ngSubmit)="guardar()">
+            <div class="card-body">
+                <div class="form-group row">
+                    <label class="col-md-3">Titulo</label>
+                    <div class="col-md-9">
+                        <input [class.is-invalid]="tituloNoValido" formControlName="titulo" name="titulo" type="text" class="form-control" placeholder="Titulo del auncio">
+                        <small *ngIf="tituloNoValido" class="form-text text-danger mb-3"><b>Escribe el titulo del anuncio</b></small>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-md-3">Descripción</label>
+                    <div class="col-md-9">
+                        <textarea rows="4" [class.is-invalid]="descNoValido" formControlName="descripcion" name="descripcion" class="form-control" placeholder="Descripción del anuncio"></textarea>
+                        <small *ngIf="descNoValido" class="form-text text-danger mb-3"><b>Escribe la descripción</b></small>
+                    </div>
+
+                </div>
+                <div class="form-group row">
+                    <label class="col-md-3">Precio</label>
+                    <div class="col-md-9">
+                        <div class="input-group">
+                            <input [class.is-invalid]="precioNoValido" formControlName="precio" name="precio" type="number" class="form-control" placeholder="0.00">
+                            <div class="input-group-append">
+                                <span class="input-group-text" id="basic-addon2">$</span>
+                            </div>
+                        </div>
+                        <small *ngIf="precioNoValido" class="form-text text-danger mb-3"><b>Escribe el precio</b></small>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-md-3 m-t-15">Estado</label>
+                    <div class="col-md-9">
+                        <select [class.is-invalid]="estadosNoValido" formControlName="estados" *ngIf="!loadingEdo" id="estados" name="estados" class="select2 form-control custom-select" style="width: 100%; height:36px;">
+                            <option value="">--Selecciona un estado--</option>
+                            <option *ngFor="let e of estados; let i = index"  [value]="e.id">
+                                {{e.nombre}}
+                              </option>
+                        </select>
+                        <small *ngIf="estadosNoValido" class="form-text text-danger mb-3"><b>Selecciona el estado</b></small>
+                        <div *ngIf="loadingEdo" class="fa-1x text-info">
+                            <i class="fas fa-sync fa-spin"> </i> Cargando estados espere....
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-md-3 m-t-15">Categoria</label>
+                    <div class="col-md-9">
+                        <select [class.is-invalid]="catNoValido" formControlName="categorias" *ngIf="!loadigCat" id="categorias" name="categorias" class="select2 form-control custom-select" style="width: 100%; height:36px;">
+                            <option value="">--Selecciona una categoria--</option>
+                            <option *ngFor="let c of categorias; let i = index"  [value]="c.id">
+                                {{c.nombre}}
+                              </option>
+                        </select>
+                        <small *ngIf="catNoValido" class="form-text text-danger mb-3"><b>Selecciona la categoria</b></small>
+                        <div *ngIf="loadigCat" class="fa-1x text-info">
+                            <i class="fas fa-sync fa-spin"> </i> Cargando categorias espere....
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="border-top">
+                <div class="card-body">
+                    <button [disabled]="!forma.valid" type="submit" class="btn btn-success">Guardar <app-loading *ngIf="loadingGuardar"></app-loading></button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<!-- <div class="col-5">
+        <div class="card col-12">
+            <div class="card-body">
+                <div class="form-group row">
+                    <label class="col-md-4">Foto de preview</label>
+                    <img src class="img-fluid mb-3" />
+                    <div class="col-md-12">
+                        <div class="custom-file">
+                            <input type="file" class="custom-file-input" id="validatedCustomFile">
+                            <label class="custom-file-label" for="validatedCustomFile">Selecciona</label>
+                            <div class="alert alert-info text-center" role="alert">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="border-top">
+                <div class="card-body">
+                    <button type="button" class="btn btn-success">Actualizar</button>
+                </div>
+            </div>
+
+        </div>
+        <div class="card col-12">
+            <div class="card-body">
+                <div class="form-group row">
+                    <label class="col-md-9">Fotos de galeria del anuncio</label>
+                    <img src class="img-fluid mb-3" />
+                    <div class="col-md-12">
+                        <div class="custom-file">
+                            <input type="file" class="custom-file-input" id="validatedCustomFile">
+                            <label class="custom-file-label" for="validatedCustomFile">Selecciona</label>
+                            <div class="alert alert-info text-center" role="alert">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="border-top">
+                <div class="card-body">
+                    <button type="button" class="btn btn-success">Actualizar</button>
+                </div>
+            </div>
+
+        </div>
+    </div>-->

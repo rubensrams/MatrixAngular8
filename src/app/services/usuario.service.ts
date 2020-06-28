@@ -12,7 +12,7 @@ import { OauthService } from './oauth.service';
 })
 export class UsuarioService {
 
-  usuarioSession: Usuarios;
+  private usuarioSession: Usuarios;
 
    constructor(private http: HttpClient, private rolesService: RolesService, private oauth: OauthService) { 
 

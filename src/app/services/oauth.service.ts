@@ -52,11 +52,12 @@ export class OauthService {
 
 guardaDataSession(accessToken: string, lsocial: string): void {
   let payload;
-    if(lsocial === '1'){
+    /*if(lsocial === '1'){
       payload= this.obtenerDatosToken(accessToken).usuario;
     }else{
       payload=  this.obtenerDatosToken(accessToken);
-    }
+    }*/
+  payload=  this.obtenerDatosToken(accessToken);
 
   this._usuario = new Usuarios();
   this._usuario.nombre = payload.nombre;
@@ -134,8 +135,15 @@ public get token(): string {
     return null;
     }
 
-  hasRole(role: string): boolean {
+  hasRole(role: string,): boolean {
     if (this._usuario.roles.includes(role)) {
+      return true;
+    }
+    return false;
+  }
+
+  hasRoleDos(role: string, role2: string,): boolean {
+    if (this._usuario.roles.includes(role) || this._usuario.roles.includes(role2)) {
       return true;
     }
     return false;
@@ -144,12 +152,13 @@ public get token(): string {
   isAuthenticated(): boolean {
     let ls= sessionStorage.getItem('ls');
     let payload;
-    if(ls === '1' ){
+    /*if(ls === '1' ){
       payload= this.obtenerDatosToken(this.token).usuario;
     }else{
       payload= this.obtenerDatosToken(this.token);
 
-    }
+    }*/
+    payload= this.obtenerDatosToken(this.token);
     if (payload != null && payload.user_name ) {
         return true;
     }

@@ -1,15 +1,17 @@
-import { Component, OnInit, Input, OnChanges, SimpleChange, SimpleChanges } from '@angular/core';
+import { Component, OnInit, Input, SimpleChanges } from '@angular/core';
 
 @Component({
-  selector: 'app-paginador',
-  templateUrl: './paginador.component.html',
+  selector: 'app-paginadordash',
+  templateUrl: './paginadordash.component.html',
   styles: [
   ]
 })
-export class PaginadorComponent implements OnInit, OnChanges {
+export class PaginadordashComponent implements OnInit {
 
   @Input() paginador: any;
   @Input() ruta: string;
+  @Input() tipo: string;
+  @Input() id: string;
   paginas: number[];
   desde: number;
   hasta: number;

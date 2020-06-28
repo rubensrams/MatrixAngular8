@@ -35,14 +35,14 @@ export class LoginComponent implements OnInit {
     const  socialusers = await this.loginSocialService.signIn(GoogleLoginProvider.PROVIDER_ID); 
     console.log(socialusers); 
       this.googleService.loginGoogle(socialusers.idToken).subscribe( resp => {
-        console.log(resp.token);  
-        this.oauthService.guardaDataSession(resp.token, '1');
+        console.log(resp.access_token);  
+        this.oauthService.guardaDataSession(resp.access_token, '1');
         const usuario = this.oauthService.usuario;
           Toast.fire({
             icon: 'success',
             title: `Usuario: ${usuario.username} logueado exitosamente`
           });
-        this.router.navigate(['/dashboard']);
+          this.router.navigate(['/dashboard', 1, 0, 0]);
         });
  }
  
@@ -50,14 +50,14 @@ export class LoginComponent implements OnInit {
   const  socialusers =  await this.loginSocialService.signIn(FacebookLoginProvider.PROVIDER_ID);
       console.log(socialusers); 
         this.facebookService.loginFacebook(socialusers.name.toString(), socialusers.photoUrl.toString(),socialusers.email.toString()).subscribe( resp => {
-        console.log('********'+resp.token);  
-         this.oauthService.guardaDataSession(resp.token, '1');
+        console.log('********'+resp.access_token);  
+         this.oauthService.guardaDataSession(resp.access_token, '1');
         const usuario = this.oauthService.usuario;
           Toast.fire({
             icon: 'success',
             title: `Usuario: ${usuario.username} logueado exitosamente`
           });
-        this.router.navigate(['/dashboard']);
+          this.router.navigate(['/dashboard', 1, 0, 0]);
         });
   } 
  
@@ -80,7 +80,7 @@ export class LoginComponent implements OnInit {
         icon: 'success',
         title: `Usuario: ${usuario.username} logueado exitosamente`
       });
-      this.router.navigate(['/dashboard']);
+      this.router.navigate(['/dashboard', 1, 0, 0]);
     }, error => {
       this.loading = false;
     });

@@ -5,6 +5,7 @@ import { UsuarioService } from '../../services/usuario.service';
 import { Usuarios } from 'src/app/models/usuarios';
 import { Toast } from 'src/app/config/config';
 import { ValidatorsService } from 'src/app/services/validators.service';
+import { OauthService } from '../../services/oauth.service';
 
 @Component({
   selector: 'app-edicion',
@@ -31,7 +32,8 @@ export class EdicionComponent implements OnInit {
     private fb: FormBuilder,
     public usuarioService: UsuarioService,
     private router: Router,
-    private validators: ValidatorsService) { 
+    private validators: ValidatorsService,
+    public loginService: OauthService) { 
     this.crearFormulario();
     
   }

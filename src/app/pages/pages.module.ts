@@ -9,6 +9,11 @@ import { PaginadorComponent } from '../pages-admin/paginador/paginador.component
 import { EdicionComponent } from '../pages-admin/edicion/edicion.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { PipesModule } from '../pipes/pipes.module';
+import { DetanuncioComponent } from './detanuncio/detanuncio.component';
+import { PaginadordashComponent } from './paginadordash/paginadordash.component';
+import { CrearanuncioComponent } from './crearanuncio/crearanuncio.component';
+import { ListaanunciosComponent } from './listaanuncios/listaanuncios.component';
+import { EdicionanuncioComponent } from './edicionanuncio/edicionanuncio.component';
 
 
 @NgModule({
@@ -17,7 +22,12 @@ import { PipesModule } from '../pipes/pipes.module';
     PagesComponent,
     UsuariosComponent,
     PaginadorComponent,
-    EdicionComponent],
+    EdicionComponent,
+    DetanuncioComponent,
+    PaginadordashComponent,
+    CrearanuncioComponent,
+    ListaanunciosComponent,
+    EdicionanuncioComponent],
   exports: [
 ],
   imports: [

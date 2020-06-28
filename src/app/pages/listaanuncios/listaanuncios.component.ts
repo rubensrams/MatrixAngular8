@@ -1,46 +1,57 @@
 import { Component, OnInit } from '@angular/core';
-import { UsuarioService } from '../../services/usuario.service';
 import { Usuarios } from 'src/app/models/usuarios';
 import { ActivatedRoute, Router } from '@angular/router';
-import Swal from 'sweetalert2';
-import { Toast } from 'src/app/config/config';
+import { AnunciosService } from '../../services/anuncios.service';
+import { Anuncio } from 'src/app/models/anuncio';
 import { OauthService } from '../../services/oauth.service';
 
 @Component({
-  selector: 'app-usuarios',
-  templateUrl: './usuarios.component.html',
+  selector: 'app-listaanuncios',
+  templateUrl: './listaanuncios.component.html',
   styles: [
   ]
 })
-export class UsuariosComponent implements OnInit {
-  usuarios: Usuarios[];
+export class ListaanunciosComponent implements OnInit {
+
+  anuncios: Anuncio[];
   loading = false;
   paginador: any;
   idPagina: number;
   ruta: string;
-  constructor(public usuarioService: UsuarioService, 
+  id: number;
+  vacio: boolean;
+  constructor(public loginService: OauthService, 
               private activatedRoute: ActivatedRoute,
               private router: Router,
-              public loginService: OauthService) { }
+              private anuncioService:AnunciosService) { }
 
   ngOnInit(): void {
-    this.loading = true;
-    this.verUsuarios();
+
+    this.verAnunciosId();
   }
 
-  verUsuarios(): void {
+  verAnunciosId(): void {
+    this.loading = true;
     this.activatedRoute.paramMap.subscribe(params => {
       let page: number = +params.get('page');
+      this.id = this.loginService.usuario.id;
+      console.log(this.id);
       this.idPagina = page;      
       if(!page){
         page=0;
       }
-        this.usuarioService.getUsuarios(page).subscribe(response => {
+        this.anuncioService.getAnunciosUsuario(this.id, page).subscribe(response => {
           console.log(response);
-          this.usuarios = response.respuesta.content as Usuarios[];
-          this.paginador = response;
-          this.ruta= '/usuarios'  
           this.loading = false;
+          if(response.error === '01'){
+            this.vacio= true;
+            return;
+          }    
+          this.vacio= false;
+          this.anuncios = response.respuesta.content as Anuncio[];
+          this.paginador = response;
+          this.ruta= '/anuncios'  
+
         }, error => {
           console.log(error);
           this.loading = false;
@@ -49,20 +60,14 @@ export class UsuariosComponent implements OnInit {
     }); 
   }
 
-  verUsuario(idN:number): void {
-    this.router.navigate(['edicion', idN, this.idPagina]);
+  verAnuncio(idN:number): void {
+    this.router.navigate(['edicionanuncio', idN, this.idPagina]);
   }
 
 
   borrarusuario(usuario: Usuarios) {
-    // validando que no te puedas borrar a ti mismo
 
-  /*  if ( usuario._id === this.usuariosService.usuario._id) {
-      Swal.fire('No puede borrar el usuario', 'No se puede borrrar a si mismo', 'error');
-      return;
-    }*/
-
-    Swal.fire({
+    /*Swal.fire({
       title: 'Esta seguro?',
       text: 'Esta a punto de borrar a ' + usuario.username,
       icon: 'warning',
@@ -92,7 +97,7 @@ export class UsuariosComponent implements OnInit {
         });
         
       }
-    });
+    });*/
   }
 
 

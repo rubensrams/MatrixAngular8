@@ -61,12 +61,12 @@
                         <small *ngIf="nombreNoValido" class="form-text text-danger mb-3"><b>Escribe el nombre</b></small>
                     </div>
                 </div>
-                <div *ngIf="usuario.id === usuarioService.usuarioSession.id">
+                <div *ngIf="usuario.id === loginService.usuario.id">
                     <div class="alert alert-warning text-center" role="alert">
                         Para edición de roles se requiere que un administrador diferente ejecute la acción.
                     </div>
                 </div>
-                <div *ngIf="usuario.id !== usuarioService.usuarioSession.id" class="form-group row" visible="false">
+                <div *ngIf="usuario.id !== loginService.usuario.id" class="form-group row" visible="false">
                     <label class="col-md-3">Roles</label>
                     <div class="col-md-9">
                         <div formArrayName="roles">
