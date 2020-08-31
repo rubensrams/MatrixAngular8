@@ -10,25 +10,25 @@
     <div class="col-12">
         <div class="card">
             <div class="card-body">
-                <h5 class="card-title">Listado de mis anuncios</h5>
+                <h5 class="card-title">Listado de mis citas para compra de un producto</h5>
                 <div class="table-responsive" *ngIf="!loading">
                     <table id="zero_config" class="table table-striped table-bordered">
                         <thead>
                             <tr align="center">
-                                <th>Titulo</th>
+                                <th>Folio</th>
                                 <th>Fecha</th>
-                                <th>Precio</th>
-                                <th>Anuncio</th>
-                                <th>Borrado</th>
+                                <th>Estatus</th>
+                                <th>Editar</th>
+                                <th>Borrar</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr *ngFor="let a of anuncios">
-                                <td>{{ a.titulo }}</td>
-                                <td>{{ a.fecha }}</td>
-                                <td align="right">{{ a.precio | currency }}</td>
-                                <td align="center"><button class="btn btn-info" (click)="verAnuncio(a.id)">Editar</button></td>
-                                <td align="center"><button (click)="borraranuncio(a)" class="btn btn-danger">Eliminar</button></td>
+                            <tr *ngFor="let c of citas">
+                                <td>{{ c.folio }}</td>
+                                <td>{{ c.fecha }}</td>
+                                <td>{{ c.estatusCita.nombre }}</td>
+                                <td align="center"><button class="btn btn-info" (click)="verCita(c.folio)">Editar</button></td>
+                                <td align="center"><button (click)="borrarcita(c)" class="btn btn-danger">Eliminar</button></td>
                             </tr>
                         </tbody>
                     </table>

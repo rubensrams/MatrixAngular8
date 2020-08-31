@@ -11,6 +11,12 @@
                         <li class="sidebar-item"><a [routerLink]="['/crearanuncio']" routerLinkActive="active-link" class="sidebar-link"><i class="mdi mdi-monitor-multiple"></i><span class="hide-menu">Crear anuncio</span></a></li>
                     </ul>
                 </li>
+                <li *ngIf="oautService.hasRoleDos('ROLE_ADMIN', 'ROLE_USER_FULL')" class="sidebar-item"> <a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i class="mdi mdi-comment-account-outline"></i><span class="hide-menu">Mis citas</span></a>
+                    <ul aria-expanded="false" class="collapse  first-level">
+                        <li class="sidebar-item"><a [routerLink]="['/citaspropias', 0]" routerLinkActive="active-link" class="sidebar-link"><i class="mdi mdi-format-align-right"></i><span class="hide-menu">Para verder mi producto</span></a></li>
+                        <li class="sidebar-item"><a [routerLink]="['/citassolicitadas', 0]" routerLinkActive="active-link" class="sidebar-link"><i class="mdi mdi-monitor-multiple"></i><span class="hide-menu">Para comprar un producto</span></a></li>
+                    </ul>
+                </li>
                 <li *ngIf="oautService.hasRole('ROLE_ADMIN')" class="sidebar-item"> <a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i class="mdi mdi-account-check"></i><span class="hide-menu">Usuarios </span></a>
                     <ul aria-expanded="false" class="collapse  first-level">
                         <li class="sidebar-item"><a [routerLink]="['/usuarios']" routerLinkActive="active-link" class="sidebar-link"><i class="mdi mdi-file-find"></i><span class="hide-menu">  Consultar </span></a></li>

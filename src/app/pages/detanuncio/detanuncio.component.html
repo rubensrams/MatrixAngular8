@@ -35,7 +35,7 @@
         <div class="card">
             <h4 class="card-header text-center">{{anuncio.categoria.nombre}}</h4>
             <div class="card-body">
-                <h3 class="card-title text-primary mb-4">{{anuncio.titulo}}</h3>
+                <h3 *ngIf="anuncio" class="card-title text-primary mb-4">{{anuncio.titulo}}</h3>
                 <hr>
                 <p class="card-text mb-4">{{anuncio.descripcion}}</p>
                 <h2 class="card-title text-center text-success mb-4">{{ anuncio.precio | currency }}</h2>
@@ -43,10 +43,79 @@
             </div>
             <div class="border-top">
                 <div class="card-body">
-                    <button type="button" class="btn btn-success mr-4">Contactar al vendedor</button>
+                    <button [disabled]="anuncio.usuario.id ===  oauthService.usuario.id || citaSolicitada" type="button" class="btn btn-success mr-4" data-toggle="modal" data-target="#Modal2">
+                        <span *ngIf="!citaSolicitada && anuncio.usuario.id !==  oauthService.usuario.id">Contactar al vendedor</span>
+                        <span *ngIf="citaSolicitada">En proceso de cita</span>
+                        <span *ngIf="anuncio.usuario.id ===  oauthService.usuario.id">Anuncio propio</span>
+                    </button>
                     <button type="button" class="btn btn-info" [routerLink]="['/dashboard', tipo, id, pagina]">Regresar</button>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+
+<!-- Modal -->
+<div data-backdrop="static" data-keyboard="false" class="modal fade bd-example-modal-lg" id="Modal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Generar cita para el anuncio: &nbsp;&nbsp;</h5>
+                <h4 *ngIf="anuncio" class="text-info">{{anuncio.titulo}}</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+
+                    <div class="col-6 ml-5">
+                        <h5 class="text-primary mb-3">Seleccione la fecha</h5>
+                        <ngb-datepicker #dp [(ngModel)]="model" (navigate)="navigateEvent($event)"></ngb-datepicker>
+                    </div>
+                    <div class="col-5">
+                        <h5 class="text-primary mb-3">Seleccione la hora</h5>
+                        <ngb-timepicker [(ngModel)]="time" (ngModelChange)="onTimeChange($event)"></ngb-timepicker>
+                    </div>
+                </div>
+                <hr>
+                <div class="">
+                    <form #f='ngForm' (ngSubmit)="generarCita(f)">
+                        <div class="card-body" [ngClass]="{'disabled': loadingCrearCita}">
+                            <h5 class="text-primary mb-3">Detalle de la cita</h5>
+                            <div class="form-group row">
+                                <label for="lname" class="col-3 text-center control-label col-form-label">Fecha</label>
+                                <div class="col-3">
+                                    <input type="text" readonly="true" name="dp" [(ngModel)]="model" ngbDatepicker class="form-control" id="lname" placeholder="Fecha">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="lname" class="col-3 text-center control-label col-form-label">Hora</label>
+                                <div class="col-3">
+                                    <input type="text" readonly="true" [value]="newTime" class="form-control" id="lname" placeholder="Hora">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="fname" class="col-3 text-center control-label col-form-label">Dirección</label>
+                                <div class="col-8">
+                                    <textarea #dir="ngModel" [(ngModel)]="direccion" name="direccion" rows="4" class="form-control" [class.is-invalid]="dir.invalid && dir.touched" placeholder="Dirección" required></textarea>
+                                    <small *ngIf="dir.invalid && dir.touched" class="form-text text-danger mb-3"><b>Escribe la dirección de la cita</b></small>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="border-top">
+                            <div class="card-body">
+                                <button type="submit" [disabled]="!f.valid" class="btn btn-primary mr-5">Enviar cita <app-loading *ngIf="loadingCrearCita"></app-loading></button>
+                                <button type="button" #btnSalir class="btn btn-secondary" data-dismiss="modal">Salir</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+
+                </div>
+            </div>
+        </div>
+    </div>

@@ -14,6 +14,9 @@ import { PaginadordashComponent } from './paginadordash/paginadordash.component'
 import { CrearanuncioComponent } from './crearanuncio/crearanuncio.component';
 import { ListaanunciosComponent } from './listaanuncios/listaanuncios.component';
 import { EdicionanuncioComponent } from './edicionanuncio/edicionanuncio.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { CitassolicitadasComponent } from './citassolicitadas/citassolicitadas.component';
+import { CitaspropiasComponent } from './citaspropias/citaspropias.component';
 
 
 @NgModule({
@@ -27,7 +30,9 @@ import { EdicionanuncioComponent } from './edicionanuncio/edicionanuncio.compone
     PaginadordashComponent,
     CrearanuncioComponent,
     ListaanunciosComponent,
-    EdicionanuncioComponent],
+    EdicionanuncioComponent,
+    CitassolicitadasComponent,
+    CitaspropiasComponent],
   exports: [
 ],
   imports: [
@@ -36,7 +41,8 @@ import { EdicionanuncioComponent } from './edicionanuncio/edicionanuncio.compone
     PAGES_ROUTES,
     FormsModule,
     ReactiveFormsModule,
-    PipesModule
+    PipesModule,
+    NgbModule
   ]
 })
 export class PagesModule { }

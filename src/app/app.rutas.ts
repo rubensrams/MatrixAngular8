@@ -7,7 +7,7 @@ const appRoutes: Routes = [
     { path: 'login', component: LoginComponent },
     { path: 'register', component: RegistroComponent },
     // Para el lazy load las paginas del pages routes se configuran aqui
-    { path: '**', component: NopagefoundComponent }
+    { path: '**', component: LoginComponent }
 ];
 
 export const APP_ROUTES = RouterModule.forRoot(appRoutes, {useHash: true})

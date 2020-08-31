@@ -75,4 +75,26 @@ export class AnunciosService {
     formData.append('imagen', fileItem, fileItem.name);
     return this.http.put(url, formData, { reportProgress: true });
   }
+
+  fileUploadGaleria(fileItem: File[], id: number) : Observable<any>{
+    const url = URL_MICROSERVICIOS_NODE  + '/matrix-upload/anuncio/imagenes/' +id;
+    const formData: FormData = new FormData();
+    for(let i = 0; i < fileItem.length; i++){
+      formData.append('imagen', fileItem[i], fileItem[i].name);
+    }    
+    return this.http.put(url, formData, { reportProgress: true });
+  }
+
+  borrarGaleria(id: number): Observable<any> {
+    const enpoint = URL_MICROSERVICIOS_NODE + '/matrix-upload/anuncio/imagenes/eliminaImgGaleria/' +id;
+    console.log(enpoint);
+      return this.http.delete(enpoint);
+  } 
+
+  borrarAnuncio(id: number): Observable<any> {
+    const enpoint = URL_MICROSERVICIOS + '/matrix/anuncios/mtx-anuncios/eliminarAnuncio/'+id;
+    console.log(enpoint);
+      return this.http.delete(enpoint);
+  } 
+
 }

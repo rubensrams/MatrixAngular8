@@ -4,7 +4,7 @@ import { AnunciosService } from '../../services/anuncios.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Toast } from 'src/app/config/config';
 import { Anuncio } from 'src/app/models/anuncio';
-import { Categoria } from '../../models/categoria';
+import { Galeria } from '../../models/galeria';
 
 @Component({
   selector: 'app-edicionanuncio',
@@ -19,6 +19,8 @@ export class EdicionanuncioComponent implements OnInit {
   loadingEdo:boolean;
   loadigCat:boolean;
   loadingGuardar:boolean;
+  loadingActGal: boolean;
+  loadingBorrarImg: boolean;
   estados = [];
   categorias= [];
   id: number;
@@ -28,6 +30,11 @@ export class EdicionanuncioComponent implements OnInit {
   imagenTemp: string | ArrayBuffer;
   fileName: string;
   loadingActFoto = false;
+  urls = [];
+  galeriaNombres = [];
+  totalGaleria=0;
+  imagenesGaleriaSubir= [];
+  listadoGaleriaAnuncio: Galeria[];
 
   constructor(private anuncioService: AnunciosService, 
               private activatedRoute: ActivatedRoute,
@@ -67,6 +74,7 @@ getAnuncio(id:number) {
     this.loading = false;
     this.anuncio = resp;
     this.setData();
+    this.listadoGaleriaAnuncio= this.anuncio.galeria;
   }, error => {
     this.loading = false;
     this.error = true;
@@ -170,9 +178,7 @@ setData(){
 
 
   preview(archivo:File){
-    console.log("entro..");
     if(!archivo){
-      console.log("entro.1.");
       this.imagenSubir = null;  
       return;
     }
@@ -223,6 +229,76 @@ setData(){
       Toast.fire({
         icon: 'error',
         title: `Error al actualizar el preview del anuncio`
+      });
+    });
+   }
+
+
+   onSelectFile(event) {
+    this.urls = [];
+    this.galeriaNombres=[];
+    this.imagenesGaleriaSubir=[];
+    if (event.target.files && event.target.files[0]) {
+        this.totalGaleria = event.target.files.length;
+        for (let i = 0; i < this.totalGaleria; i++) {
+
+          if (!this.validateFile(event.target.files[i].name)) {
+            Toast.fire({
+              icon: 'error',
+              title: `Seleccione archivos de tipo imagen`
+            });
+            this.imagenSubir = null;
+            return;
+          }
+          this.imagenesGaleriaSubir.push(event.target.files[i]); 
+          this.galeriaNombres.push(event.target.files[i].name); 
+            var reader = new FileReader();
+                reader.onload = (event:any) => {
+                   this.urls.push(event.target.result);                   
+                }
+                reader.readAsDataURL(event.target.files[i]);                 
+        }
+     }
+  }
+
+  borrarImagen(id:number){
+    this.loadingBorrarImg=true;
+      this.anuncioService.borrarGaleria(id).subscribe( resp=> {
+        this.loadingBorrarImg=false;
+        console.log(resp);
+        this.listadoGaleriaAnuncio = resp.borrado;
+        Toast.fire({
+        icon: 'success',
+        title: `Imagen eliminada exitosamente`});
+      }, error => {
+        this.loadingBorrarImg=false;
+        console.log(error);
+        Toast.fire({
+          icon: 'error',
+          title: `Error al borrar la imagen del anuncio`
+        });
+      });
+  }
+
+  subeGaleria() {
+    this.loadingActGal=true;
+    this.anuncioService.fileUploadGaleria( this.imagenesGaleriaSubir, this.anuncio.id).subscribe( (resp: any) => {
+     console.log(resp);
+     this.loadingActGal=false;
+     this.listadoGaleriaAnuncio = resp.galeria;
+     this.urls = [];
+     this.galeriaNombres=[];
+     this.totalGaleria =0;
+      Toast.fire({
+        icon: 'success',
+        title: `Galeria de anuncio actualizada exitosamente`
+      });
+    }, error => {
+      console.log(error);
+      this.loadingActGal = false;
+      Toast.fire({
+        icon: 'error',
+        title: `Error al actualizar la preview del anuncio`
       });
     });
    }

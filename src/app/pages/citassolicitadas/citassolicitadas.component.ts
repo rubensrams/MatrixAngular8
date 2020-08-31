@@ -1,48 +1,43 @@
 import { Component, OnInit } from '@angular/core';
-import { Usuarios } from 'src/app/models/usuarios';
 import { ActivatedRoute, Router } from '@angular/router';
-import { AnunciosService } from '../../services/anuncios.service';
-import { Anuncio } from 'src/app/models/anuncio';
 import { OauthService } from '../../services/oauth.service';
 import Swal from 'sweetalert2';
 import { Toast } from 'src/app/config/config';
-
+import { Cita } from 'src/app/models/cita';
+import { CitasService } from 'src/app/services/citas.service';
 @Component({
-  selector: 'app-listaanuncios',
-  templateUrl: './listaanuncios.component.html',
+  selector: 'app-citassolicitadas',
+  templateUrl: './citassolicitadas.component.html',
   styles: [
   ]
 })
-export class ListaanunciosComponent implements OnInit {
-
-  anuncios: Anuncio[];
+export class CitassolicitadasComponent implements OnInit {
+  citas: Cita[];
   loading = false;
   paginador: any;
   idPagina: number;
   ruta: string;
-  id: number;
+  folio: number;
   vacio: boolean;
   constructor(public loginService: OauthService, 
-              private activatedRoute: ActivatedRoute,
-              private router: Router,
-              private anuncioService:AnunciosService) { }
+    private activatedRoute: ActivatedRoute,
+    private router: Router,
+    private citasService:CitasService) { }
 
   ngOnInit(): void {
-
-    this.verAnunciosId();
+    this.verCitasSolicitadasId();
   }
-
-  verAnunciosId(): void {
+  verCitasSolicitadasId(): void {
     this.loading = true;
     this.activatedRoute.paramMap.subscribe(params => {
       let page: number = +params.get('page');
-      this.id = this.loginService.usuario.id;
-      console.log(this.id);
+      this.folio = this.loginService.usuario.id;
+      console.log(this.folio);
       this.idPagina = page;      
       if(!page){
         page=0;
       }
-        this.anuncioService.getAnunciosUsuario(this.id, page).subscribe(response => {
+        this.citasService.getCitasSolicitadas(this.folio, page).subscribe(response => {
           console.log(response);
           this.loading = false;
           if(response.error === '01'){
@@ -50,9 +45,9 @@ export class ListaanunciosComponent implements OnInit {
             return;
           }    
           this.vacio= false;
-          this.anuncios = response.respuesta.content as Anuncio[];
+          this.citas = response.respuesta.content as Cita[];
           this.paginador = response;
-          this.ruta= '/anuncios'  
+          this.ruta= '/citassolicitadas'  
 
         }, error => {
           console.log(error);
@@ -62,16 +57,16 @@ export class ListaanunciosComponent implements OnInit {
     }); 
   }
 
-  verAnuncio(idN:number): void {
+  verCita(idN:number): void {
     this.router.navigate(['edicionanuncio', idN, this.idPagina]);
   }
 
  
-  borraranuncio(anuncio: Anuncio) {
+  borrarcita(cita: Cita) {
 
     Swal.fire({
       title: 'Esta seguro?',
-      text: 'Esta a punto de eliminar el anuncio: ' + anuncio.titulo,
+      text: 'Esta a punto de eliminar la cita: ' + cita.folio,
       icon: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#3085d6',
@@ -80,20 +75,20 @@ export class ListaanunciosComponent implements OnInit {
     }).then((result) => {
       if (result.value) {
         this.loading = true;
-        this.anuncioService.borrarAnuncio(anuncio.id).subscribe( resp => {
+        this.citasService.borrarCita(cita.folio).subscribe( resp => {
             console.log(resp);
             this.loading = false;
             Swal.fire(
               'Borrado',
-              'El usuario ' + anuncio.titulo+ ' ha sido eliminado exitosamente',
+              'La cita ' + cita.folio+ ' ha sido eliminada exitosamente',
               'success'
             );
-            this.verAnunciosId();
+            this.verCitasSolicitadasId();
         }, error => {
           console.log(error);
           Toast.fire({
             icon: 'error',
-            title: `Error al eliminar al usuario`+ anuncio.titulo
+            title: `Error al eliminar la cita`+ cita.folio
           });
           this.loading = false;
         });
@@ -101,7 +96,4 @@ export class ListaanunciosComponent implements OnInit {
       }
     });
   }
-
-
-
 }

@@ -8,6 +8,8 @@ import { DetanuncioComponent } from './detanuncio/detanuncio.component';
 import { CrearanuncioComponent } from './crearanuncio/crearanuncio.component';
 import { ListaanunciosComponent } from './listaanuncios/listaanuncios.component';
 import { EdicionanuncioComponent } from './edicionanuncio/edicionanuncio.component';
+import { CitaspropiasComponent } from './citaspropias/citaspropias.component';
+import { CitassolicitadasComponent } from './citassolicitadas/citassolicitadas.component';
 
 
 const pagesRoutes: Routes = [
@@ -20,12 +22,17 @@ const pagesRoutes: Routes = [
             { path: 'detAnuncio/:clave/:tipo/:id/:page', component: DetanuncioComponent, data: { titulo: 'Detalle anuncio' } }, 
             { path: 'anuncios/:page', component: ListaanunciosComponent, data: { titulo: 'Mis anuncios' } },
             { path: 'crearanuncio', component: CrearanuncioComponent, data: { titulo: 'Crear Anuncio' } },
-            { path: 'edicionanuncio/:id/:page', component: EdicionanuncioComponent, data: { titulo: 'Editar anuncio' } },       
+            { path: 'edicionanuncio/:id/:page', component: EdicionanuncioComponent, data: { titulo: 'Editar anuncio' } },      
+
+            { path: 'citaspropias/:page', component: CitaspropiasComponent, data: { titulo: 'Mis citas para verder mi producto' } },
+            { path: 'citassolicitadas/:page', component: CitassolicitadasComponent, data: { titulo: 'Mis citas para comprar un producto' } },
 
             { path: 'usuarios', component: UsuariosComponent, data: { titulo: 'Usuarios' } },
             { path: 'usuarios/:page', component: UsuariosComponent, data: { titulo: 'Usuarios' } },
             { path: 'edicion/:id/:page', component: EdicionComponent, data: { titulo: 'Editar usuario' } },       
-            { path: '', redirectTo: '/dashboard', pathMatch: 'full' }
+            { path: '', redirectTo: '/dashboard/0/0', pathMatch: 'full' }
+           // { path: '**', component: DashboardComponent }
+
         ]
     }
 ];

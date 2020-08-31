@@ -2,6 +2,7 @@ import { Categoria } from './categoria';
 import { Estado } from './estado';
 import { Usuarios } from './usuarios';
 import { Galeria } from './galeria';
+import { Cita } from './cita';
 export class Anuncio {
     id: number;
     titulo: string;
@@ -14,5 +15,6 @@ export class Anuncio {
     estado: Estado;
     usuario: Usuarios;
     galeria: Galeria[];
+    citas: Cita[];
 
 } 
